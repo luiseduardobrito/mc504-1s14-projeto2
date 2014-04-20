@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+// Classe para controle e gerenciamento da tela
+// Ref: http://java.about.com/od/creatinguserinterfaces/ss/simplewindow.htm
 public class Window {
 
 	private static JFrame frame;
