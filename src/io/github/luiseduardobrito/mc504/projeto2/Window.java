@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 public class Window {
 
 	private static JFrame frame;
+	private static JLabel[] labels = new JLabel[14];
 
 	public static void createAndShow(int number) {
 
@@ -29,5 +30,9 @@ public class Window {
 		// Inicia a tela
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public static void addLabel(int id, String path) {
+		
 	}
 }
