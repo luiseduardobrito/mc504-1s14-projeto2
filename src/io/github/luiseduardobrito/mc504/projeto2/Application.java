@@ -10,7 +10,7 @@ public class Application {
 	public static void main(String[] args) {
 		
 		// Cria e prepara janela de estado
-		Window.createAndShow();
+		Window.createAndShow(NUM_PHILOSOPHERS);
 		
 		// Inicializa lista de talheres com Locks
 		Lock[] chopsticks = new ReentrantLock[NUM_PHILOSOPHERS];

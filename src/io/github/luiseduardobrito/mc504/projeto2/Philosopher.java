@@ -27,18 +27,18 @@ class Philosopher implements Runnable {
 				putDownChopsticks();
 			}
 		} catch (InterruptedException e) {
-			Window.addText("Philosopher " + id + " was interrupted.\n");
+			Window.setText(id, "Interrompido!");
 		}
 	}
 
 	private void think() throws InterruptedException {
-		Window.addText("Philosopher " + id + " is thinking.\n");
-		Thread.sleep(numGenerator.nextInt(10) * 1000);
+		Window.setText(id, "Pensando...");
+		Thread.sleep(numGenerator.nextInt(5) * 1000);
 	}
 
 	private void pickUpLeftChopstick() {
 		leftChopstick.lock();
-		Window.addText("Philosopher " + id + " is holding 1 chopstick.\n");
+		Window.setText(id, "Segurando 1 talher");
 	}
 
 	private void pickUpRightChopstick() {
@@ -46,8 +46,8 @@ class Philosopher implements Runnable {
 	}
 
 	private void eat() throws InterruptedException {
-		Window.addText("Philosopher " + id + " is eating.\n");
-		Thread.sleep(numGenerator.nextInt(10));
+		Window.setText(id, "Comendo...");
+		Thread.sleep(numGenerator.nextInt(5) * 1000);
 	}
 
 	private void putDownChopsticks() {
