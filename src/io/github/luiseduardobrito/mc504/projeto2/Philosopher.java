@@ -1,61 +1,57 @@
 package io.github.luiseduardobrito.mc504.projeto2;
 
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
 
-public class Philosopher implements Runnable {
+class Philosopher implements Runnable {
 
-	private final int id;
-	private final Chopstick leftChopStick;
-	private final Chopstick rightChopStick;
-	volatile boolean isTummyFull = false;
-	private Random randomGenerator = new Random();
-	private int noOfTurnsToEat = 0;
+	private Random numGenerator = new Random();
+	private int id;
 
-	public Philosopher(int id, Chopstick leftChopStick, Chopstick rightChopStick) {
+	private Lock leftChopstick;
+	private Lock rightChopstick;
+
+	public Philosopher(int id, Lock leftChopstick, Lock rightChopstick) {
 		this.id = id;
-		this.leftChopStick = leftChopStick;
-		this.rightChopStick = rightChopStick;
+		this.leftChopstick = leftChopstick;
+		this.rightChopstick = rightChopstick;
 	}
 
-	@Override
 	public void run() {
-
 		try {
-			while (!isTummyFull) {
-				
+			while (true) {
 				think();
-				
-				if (leftChopStick.pickUp(this, "left")) {
-					if (rightChopStick.pickUp(this, "right")) {
-						eat();
-						rightChopStick.putDown(this, "right");
-					}
-					leftChopStick.putDown(this, "left");
-				}
+				pickUpLeftChopstick();
+				pickUpRightChopstick();
+				eat();
+				putDownChopsticks();
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+		} catch (InterruptedException e) {
+			Window.addText("Philosopher " + id + " was interrupted.\n");
 		}
 	}
 
 	private void think() throws InterruptedException {
-		System.out.println(this + " is thinking");
-		Thread.sleep(randomGenerator.nextInt(1000));
+		Window.addText("Philosopher " + id + " is thinking.\n");
+		Thread.sleep(numGenerator.nextInt(10) * 1000);
+	}
+
+	private void pickUpLeftChopstick() {
+		leftChopstick.lock();
+		Window.addText("Philosopher " + id + " is holding 1 chopstick.\n");
+	}
+
+	private void pickUpRightChopstick() {
+		rightChopstick.lock();
 	}
 
 	private void eat() throws InterruptedException {
-		System.out.println(this + " is eating");
-		noOfTurnsToEat++;
-		Thread.sleep(randomGenerator.nextInt(1000));
+		Window.addText("Philosopher " + id + " is eating.\n");
+		Thread.sleep(numGenerator.nextInt(10));
 	}
 
-	public int getNoOfTurnsToEat() {
-		return noOfTurnsToEat;
-	}
-
-	@Override
-	public String toString() {
-		return "Philosopher-" + id;
+	private void putDownChopsticks() {
+		leftChopstick.unlock();
+		rightChopstick.unlock();
 	}
 }
